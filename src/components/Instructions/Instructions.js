@@ -1,21 +1,36 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import store, {UPDATE_INSTRUCTIONS} from '../../store'
 
 class Instructions extends Component {
   constructor(props) {
     super(props);
+    let storeState = store.getState()
     this.state = {
-      instructions: [],
+      instructions: storeState.instructions,
       input: ""
     };
   }
+
+  componentDidMount = () => {
+    store.subscribe(() => {
+      let storeState = store.getState()
+      this.setState({
+        instructions: storeState.instructions
+      })
+    })
+  }
+
   handleChange(val) {
     this.setState({
       input: val
     });
   }
   addInstruction() {
-    // Send data to Redux state
+    store.dispatch({
+      type: UPDATE_INSTRUCTIONS,
+      payload: this.state.input
+    })
     this.setState({
       input: ""
     });
