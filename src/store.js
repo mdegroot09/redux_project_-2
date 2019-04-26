@@ -1,20 +1,22 @@
-import {createStore} from redux;
+import {createStore} from 'redux';
 
 const initialState = {
-  name: {},
-  category: {},
+  name: '',
+  category: '',
   authorFirstName: '',
   authorLastName: '',
   ingredients: [],
-  instructions: []
+  instructions: [],
+  recipesList: []
 }
 
 export const UPDATE_NAME = 'UPDATE_NAME'
 export const UPDATE_CATEGORY = 'UPDATE_CATEGORY'
 export const UPDATE_AUTHOR_FIRST_NAME = 'UPDATE_AUTHOR_FIRST_NAME'
-export const UDPATE_AUTHOR_LAST_NAME = 'UDPATE_AUTHOR_LAST_NAME'
+export const UPDATE_AUTHOR_LAST_NAME = 'UDPATE_AUTHOR_LAST_NAME'
 export const UPDATE_INGREDIENTS = 'UPDATE_INGREDIENTS'
 export const UPDATE_INSTRUCTIONS = 'UPDATE_INSTRUCTIONS'
+export const UPDATE_RECIPES_LIST = 'UPDATE_RECIPES_LIST'
 
 function reducer(state = initialState, action){
   // const {type, payload} = action
@@ -31,6 +33,17 @@ function reducer(state = initialState, action){
       return {...state, ingredients: [...state.ingredients, action.payload]}
     case UPDATE_INSTRUCTIONS:
       return {...state, instructions: [...state.instructions, action.payload]}
+    case UPDATE_RECIPES_LIST:
+      const {name, category, authorFirstName, authorLastName, ingredients, instructions} = state
+      const recipe = {name, category, authorFirstName, authorLastName, ingredients, instructions}
+      return {
+        name: '',
+        category: '',
+        authorFirstName: '',
+        authorLastName: '',
+        ingredients: [],
+        instructions: [],
+        recipesList: [...state.recipesList, recipe]}
     default:
       return state;
   }
